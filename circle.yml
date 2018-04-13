@@ -10,7 +10,7 @@ dependencies:
 
 
 test:
-  post:
+  override:
     - mvn cobertura:cobertura
     - bash <(curl -s https://codecov.io/bash)
     - docker run -d -p 8081:8081 --name yello-team 463442625423.dkr.ecr.us-east-2.amazonaws.com/yello-team:$CIRCLE_SHA1; sleep 10

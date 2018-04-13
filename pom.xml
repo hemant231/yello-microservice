@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.techprimers.test</groupId>
-	<artifactId>test-controller-example</artifactId>
+	<artifactId>yello-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>test-controller-example</name>
+	<name>yello-ms</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>

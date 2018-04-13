@@ -56,7 +56,7 @@ make_and_register_task_def(){
 	
 	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1)
 	
-	if revision=$(aws ecs register-task-definition --cli-input-json "$task_def"); then
+	if revision=$(aws ecs register-task-definition --cli-input-json "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then); then
         	echo "Revision: $revision"
 	else
 		echo "Failed to register task definition"

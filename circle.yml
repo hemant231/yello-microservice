@@ -11,6 +11,7 @@ dependencies:
 
 test:
   post:
+    - bash <(curl -s https://codecov.io/bash)
     - docker run -d -p 8080:8080 --name yello-team 463442625423.dkr.ecr.us-east-2.amazonaws.com/yello-team:$CIRCLE_SHA1; sleep 10
     - chmod +x ./deploy.sh
    

@@ -52,7 +52,7 @@ make_and_register_task_def(){
 
 	#aws ecs register-task-definition --cli-input-json file://$HOME/tasks/fargate-task.json
 	
-	if revision=$(aws ecs register-task-definition --cli-input-json file://$HOME/yello-ms-task.json | $JQ '.taskDefinition.taskDefinitionArn'); then
+	if revision=$(aws ecs register-task-definition --cli-input-json file://$HOME/yello-microservice/yello-ms-task.json | $JQ '.taskDefinition.taskDefinitionArn'); then
         	echo "Revision: $revision"
 	else
 		echo "Failed to register task definition"

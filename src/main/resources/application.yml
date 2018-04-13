@@ -1,0 +1,19 @@
+spring:
+  profiles.active: dev
+server.port: 1210
+artifact:
+  id : yello-ms
+  version: 0.0.1-SNAPSHOT
+environment:
+  nodeName :
+---
+spring:
+  profiles: dev
+mongodb:
+  #host: mongo
+  host: localhost
+  port: 27017
+  database: dev_db
+  username: 
+  password: 
+  authenticationDB: 

@@ -35,16 +35,9 @@ jobs:
            - ~/.m2
          key: v1-dependencies-{{ checksum "pom.xml" }}
       # run tests!
-     - run: mvn integration-test
-     - store_artifacts:
-         path: .
-         destination: prefix
-     - store_test_results:
-         path: .
-     - run: mvn cobertura:cobertura
-     - run:
-        name: upload-coverage
-        command: bash <(curl -s https://codecov.io/bash) -t ${CODECOV_KEY}
-  test:
-    post:
-     - bash <(curl -s https://codecov.io/bash)
+#     - run: mvn integration-test
+#     - store_artifacts:
+#         path: .
+#         destination: prefix
+#     - store_test_results:
+#         path: .

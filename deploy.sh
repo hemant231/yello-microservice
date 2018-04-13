@@ -13,17 +13,25 @@ deploy_cluster() {
    family="yello-family"
 
    make_and_register_task_def
+
+   aws ecs list-task-definitions
+
+   #aws ecs create-service --cluster fargate-cluster --service-name fargate-service --task-definition sample-fargate:1 --desired-count 2 --launch-type "FARGATE" --network-configuration "awsvpcConfiguration={subnets=[subnet-abcd1234],securityGroups=[sg-abcd1234]}"
    
-    if [[ $(aws ecs update-service --cluster test-cluster --service test-service --task-definition $revision | \
+    if [[ $(aws ecs create-service --cluster test-cluster --service-name yello-ms-service --task-definition $revision | \
                    $JQ '.service.taskDefinition') != $revision ]]; then
         echo "Error updating service."
         return 1
     fi
 
+    #list services
+
+    aws ecs list-services --cluster test-cluster
+
     # wait for older revisions to disappear
     # not really necessary, but nice for demos
     for attempt in {1..30}; do
-        if stale=$(aws ecs describe-services --cluster test-cluster --services test-service | \
+        if stale=$(aws ecs describe-services --cluster test-cluster --services yello-ms-service | \
                        $JQ ".services[0].deployments | .[] | select(.taskDefinition != \"$revision\") | .taskDefinition"); then
             echo "Waiting for stale deployments:"
             echo "$stale"
@@ -38,25 +46,13 @@ deploy_cluster() {
 }
 
 make_and_register_task_def(){
-	task_template='[
-		{
-			"name": "go-sample-webapp",
-			"image": "$AWS_ACCOUNT_ID.dkr.ecr.us-east-2.amazonaws.com/yello-team:$CIRCLE_SHA1",
-			"essential": true,
-			"memory": 500,
-			"cpu": 2,
-			"portMappings": [
-				{
-					"containerPort": 8081,
-					"hostPort": 8081
-				}
-			]
-		}
-	]'
+
+	echo $HOME
+	echo registering task
+
+	#aws ecs register-task-definition --cli-input-json file://$HOME/tasks/fargate-task.json
 	
-	task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $CIRCLE_SHA1)
-	
-	if revision=$(aws ecs register-task-definition --cli-input-json "$task_def" --family $family | $JQ '.taskDefinition.taskDefinitionArn'); then
+	if revision=$(aws ecs register-task-definition --cli-input-json file://$HOME/yello-ms-task.json | $JQ '.taskDefinition.taskDefinitionArn'); then
         	echo "Revision: $revision"
 	else
 		echo "Failed to register task definition"

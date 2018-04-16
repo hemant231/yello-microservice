@@ -36,7 +36,7 @@ public class UserdataServiceImpl implements UserdataService {
     
     // hello world test method
     public String hello() {
-        return "Hello Mr. Holmes.";
+        return "Hello Mr. Sherlock Holmes.";
     }
     
     /**

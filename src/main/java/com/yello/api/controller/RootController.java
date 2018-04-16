@@ -59,7 +59,7 @@ public class RootController {
 	 */
 	@RequestMapping(value = "/echo/{str}", method = RequestMethod.GET)
 	public String echo(@PathVariable String str) {
-		return str;
+		return str+" !!!!!!!!!!! ";
 	}
 
 	/**
